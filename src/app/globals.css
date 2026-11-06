@@ -1,0 +1,302 @@
+@import "tailwindcss" source("../");
+
+@theme {
+  --color-royal: #321064;
+  --color-deep: #210b42;
+  --color-gold: #d9a441;
+  --color-lavender: #e9ddfb;
+  --color-warm: #faf9fc;
+  --color-charcoal: #211b29;
+  --color-open: #15803d;
+  --color-open-light: #4ade80;
+  --color-shut: #b42318;
+  --color-shut-light: #fda29b;
+
+  --font-display: var(--font-bodoni), "Times New Roman", serif;
+  --font-brand: var(--font-cinzel), "Times New Roman", serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-telugu: var(--font-telugu-serif), serif;
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-warm);
+    color: var(--color-charcoal);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.65;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  button,
+  summary,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button:not(:disabled),
+  summary {
+    cursor: pointer;
+  }
+
+  /* The mobile action bar is fixed, so reserve room for it at the end of the page. */
+  @media (max-width: 47.99rem) {
+    body {
+      padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  html:has(dialog[open]),
+  html.menu-open {
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .btn {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.7rem 1.6rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.3s var(--ease-luxe),
+      color 0.3s var(--ease-luxe),
+      border-color 0.3s var(--ease-luxe),
+      transform 0.3s var(--ease-luxe);
+  }
+  .btn:active {
+    transform: scale(0.98);
+  }
+  .btn svg {
+    flex: none;
+  }
+  .btn-gold {
+    background: var(--color-gold);
+    color: var(--color-deep);
+  }
+  .btn-gold:hover {
+    background: #e7b95e;
+  }
+  .btn-royal {
+    background: var(--color-royal);
+    color: #fff;
+  }
+  .btn-royal:hover {
+    background: var(--color-deep);
+  }
+  .btn-outline-light {
+    border-color: rgb(255 255 255 / 0.45);
+    color: #fff;
+  }
+  .btn-outline-light:hover {
+    background: #fff;
+    color: var(--color-deep);
+  }
+  .btn-outline-royal {
+    border-color: var(--color-royal);
+    color: var(--color-royal);
+  }
+  .btn-outline-royal:hover {
+    background: var(--color-royal);
+    color: #fff;
+  }
+
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 2rem;
+    height: 1px;
+    background: var(--color-gold);
+  }
+
+  .section-title {
+    font-size: clamp(2.1rem, 1.5rem + 2.8vw, 3.75rem);
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+
+  .section-pad {
+    padding-block: clamp(4rem, 3rem + 5vw, 8rem);
+  }
+
+  .container-site {
+    width: 100%;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 48rem) {
+    .container-site {
+      padding-inline: 2rem;
+    }
+  }
+  @media (min-width: 90rem) {
+    .container-site {
+      padding-inline: 3rem;
+    }
+  }
+
+  .field {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.7rem 0.9rem;
+    background: #fff;
+    color: var(--color-charcoal);
+    font-size: 1rem; /* 16px stops iOS zooming on focus */
+    border: 1px solid rgb(50 16 100 / 0.3);
+    transition: border-color 0.2s;
+  }
+  .field:hover,
+  .field:focus {
+    border-color: var(--color-royal);
+  }
+  .field[aria-invalid="true"] {
+    border-color: var(--color-shut);
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-item summary svg {
+    transition: transform 0.35s var(--ease-luxe);
+  }
+  .faq-item[open] summary svg {
+    transform: rotate(45deg);
+  }
+  .faq-item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.35s var(--ease-luxe),
+      content-visibility 0.35s allow-discrete;
+  }
+  .faq-item[open]::details-content {
+    block-size: auto;
+    block-size: calc-size(auto, size);
+  }
+
+  .lightbox {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    background: transparent;
+    overflow: hidden;
+  }
+  .lightbox::backdrop {
+    background: rgb(20 7 41 / 0.96);
+  }
+}
+
+/* Open-status pulse */
+@keyframes status-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.status-pulse {
+  animation: status-pulse 2.2s ease-out infinite;
+}
+
+/* Page entrance: CSS only, so it can never get stuck waiting on JavaScript. */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: grid;
+  place-items: center;
+  background: var(--color-deep);
+  pointer-events: none;
+  animation: loader-lift 0.5s var(--ease-luxe) 0.45s forwards;
+}
+.page-loader-mark {
+  animation: loader-mark 0.45s var(--ease-luxe) both;
+}
+@keyframes loader-lift {
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+@keyframes loader-mark {
+  from {
+    opacity: 0;
+    letter-spacing: 0.32em;
+  }
+  to {
+    opacity: 1;
+    letter-spacing: 0.14em;
+  }
+}
+html.seen .page-loader {
+  display: none;
+}
+
+/* Hero entrance states, held until GSAP takes over. Removed by a safety timer if it never does. */
+html.js-anim [data-hero-word],
+html.js-anim [data-hero-fade] {
+  opacity: 0;
+}
+html.js-anim [data-hero-image] {
+  clip-path: inset(100% 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .page-loader {
+    display: none;
+  }
+  .status-pulse {
+    animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
